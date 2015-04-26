@@ -39,7 +39,41 @@ void LivingThing::setSpeed(int spd)
 {
 	speed = spd;
 }
+int LivingThing::getMaxXPos()
+{
+	return maxXPos;
 
+}
+void LivingThing::setMaxXPos(int max)
+{
+	maxXPos = max;
+}
+int LivingThing::getMaxYPos()
+{
+	return maxYPos;
+}
+void LivingThing::setMaxYPos(int max)
+{
+	maxYPos = max;
+}
+void LivingThing::setFrameWidth(int width)
+{
+	frameWidth = width;
+}
+int LivingThing::getFrameWidth()
+{
+	return frameWidth;
+}
+void LivingThing::setFrameHeight(int height)
+{
+	frameHeight = height;
+}
+int LivingThing::getFrameHeight()
+{
+	return frameHeight;
+}
+
+//Functions
 void LivingThing::Update(int Horizontal_Move, int Verticle_Move, int damaged)
 {
 	UpdatePosition(Horizontal_Move, Verticle_Move);
@@ -48,8 +82,15 @@ void LivingThing::Update(int Horizontal_Move, int Verticle_Move, int damaged)
 
 void LivingThing::UpdatePosition(int &Horizontal, int &Vertical)
 {
-	x_pos += speed*Horizontal;
-	y_pos += speed*Vertical;
+	if ((!(x_pos + speed*Horizontal >= (maxXPos - frameWidth))) && (!(x_pos + speed*Horizontal <= (frameWidth/2))))
+	{
+		x_pos += speed*Horizontal;
+	}
+	if ((!(y_pos + speed*Vertical >= (maxYPos - frameHeight))) && (!(y_pos + speed*Vertical <= (frameHeight/2))))
+	{
+		y_pos += speed*Vertical;
+	}
+	
 }
 
 void LivingThing::draw()

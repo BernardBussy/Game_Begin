@@ -11,10 +11,9 @@ int main()
 	//Function Prototype Declarations
 	void playerUpdate(Player *, bool[]);
 	
-	//Global Variable Initialisations
-	Player player1(10, 10, 100, 4);
 	
-	//Control Variable Initialisations
+	
+	//Variable Initialisations
 	int width = 640;
 	int height = 480;
 	bool done = false;
@@ -23,6 +22,8 @@ int main()
 	int pos_y = height / 2;
 	int FPS = 60;
 	bool KBRDKEYS[4] = { false, false, false, false };
+	//Glame Variable Initialisations
+	Player player1(33, 33, 100, 4, height, width);
 
 	//Allegro Variable Declarations
 	ALLEGRO_DISPLAY *mainDisplay = NULL;
@@ -113,7 +114,10 @@ int main()
 		{
 			al_get_mouse_state(&mouseState);
 		}
-		else if (gameEvent.type == ALLEGRO_EVENT_DISPLAY_CLOSE) done = true;
+		else if (gameEvent.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+		{
+			done = true;
+		}
 		else if (gameEvent.type == ALLEGRO_EVENT_TIMER)
 		{
 			playerUpdate(&player1, KBRDKEYS);
