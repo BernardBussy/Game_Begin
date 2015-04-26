@@ -1,13 +1,14 @@
-#include <stdio.h>
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
+#include "Player.h"
 
 enum KBRDKEYS {UP, DOWN, LEFT, RIGHT};
-enum MOUSE {LClick, RClick};
 int main()
 {
 	//Initialisations and Installations
 	//Function Prototype Declarations
+	//Global Variable Initialisations
+	Player player1(10, 10, 100,10);
 	//Control Variable Initialisations
 	int width = 640;
 	int height = 480;
@@ -17,7 +18,6 @@ int main()
 	int pos_y = height / 2;
 	int FPS = 60;
 	bool KBRDKEYS[4] = { false, false, false, false };
-	bool MOUSEKEYS[2] = { false, false };
 	
 	//Allegro Variable Declarations
 	ALLEGRO_DISPLAY *mainDisplay = NULL;
@@ -43,6 +43,7 @@ int main()
 	al_register_event_source(mainQueue, al_get_display_event_source(mainDisplay));
 	al_register_event_source(mainQueue, al_get_timer_event_source(gameLoopTimer));
 	al_get_mouse_state(&mouseState);
+
 	//Timer Setup
 	al_start_timer(gameLoopTimer);
 
@@ -101,28 +102,38 @@ int main()
 		else if (gameEvent.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{	
 			al_get_mouse_state(&mouseState);
-			MOUSEKEYS[LClick] = true;
 		}
 		else if (gameEvent.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 		{
 			al_get_mouse_state(&mouseState);
-			MOUSEKEYS[LClick] = false;
 		}
 		else if (gameEvent.type == ALLEGRO_EVENT_DISPLAY_CLOSE) done = true;
 		else if (gameEvent.type == ALLEGRO_EVENT_TIMER)
 		{
-			pos_x += KBRDKEYS[RIGHT] * 10;
-			pos_x -= KBRDKEYS[LEFT] * 10;
-			pos_y += KBRDKEYS[DOWN] * 10;
-			pos_y -= KBRDKEYS[UP] * 10;
-			if (MOUSEKEYS[LClick])
+			if (KBRDKEYS[RIGHT])
+			{
+				player1.Update(1, 0, 0);
+			}
+			if (KBRDKEYS[LEFT])
+			{
+				player1.Update(-1, 0, 0);
+			}
+			if (KBRDKEYS[DOWN])
+			{
+				player1.Update(0, 1, 0);
+			}
+			if (KBRDKEYS[UP])
+			{
+				player1.Update(0, -1, 0);
+			}
+			if (mouseState.buttons)
 				al_draw_filled_rectangle(mouseState.x, mouseState.y, mouseState.x + 30, mouseState.y + 30, al_map_rgb(255, 0, 255));
 			draw = true;
 		}
 		if (draw && al_is_event_queue_empty(mainQueue))
 		{
+			player1.draw();
 			draw = false;
-			al_draw_filled_rectangle(pos_x, pos_y, pos_x + 30, pos_y + 30, al_map_rgb(255, 0, 255));
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
